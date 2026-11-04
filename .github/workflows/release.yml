@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  # Manual retry/backfill: dispatch with a tag as the ref (e.g. `gh workflow run
+  # release.yml --ref v0.1.0`); the existing release is updated in place.
+  workflow_dispatch:
 
 permissions:
   contents: write

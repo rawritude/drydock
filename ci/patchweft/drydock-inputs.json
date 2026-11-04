@@ -1,0 +1,24 @@
+{
+  "schema": "patchweft.inputs/1",
+  "common": [
+    "app/**",
+    "gradle/**",
+    "gradlew",
+    "gradle.properties",
+    "settings.gradle.kts",
+    "build.gradle.kts",
+    "ci/**"
+  ],
+  "jobs": {
+    "test-lint": {
+      "paths": ["**"],
+      "exclude": ["**/*.md", "LICENSE", ".gitignore", ".github/**"],
+      "why": "Gradle tests and Android lint read sources, build files and the CI definitions; prose, licensing and GitHub workflow files cannot change their outcome."
+    },
+    "assemble": {
+      "paths": ["**"],
+      "exclude": ["**/*.md", "LICENSE", ".gitignore", ".github/**"],
+      "why": "Gradle packaging reads sources, build files and the CI definitions; prose, licensing and GitHub workflow files cannot change its outcome."
+    }
+  }
+}

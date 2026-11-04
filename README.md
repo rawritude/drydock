@@ -113,6 +113,14 @@ Requirements: JDK 17, Android SDK platform 35 + build-tools 35.
 ./gradlew lintDebug           # Android lint (no errors)
 ```
 
+## Continuous integration
+
+- **GitHub Actions** — `.github/workflows/ci.yml` builds, tests and lints every push; tags
+  (`v*`) cut a pre-release with a debug APK (`release.yml`).
+- **Patchweft** — `ci/patchweft/` defines the project's validation profile (tests, lint and
+  packaging jobs with declared inputs) for agent-run validation on a Patchweft host; see
+  [`ci/patchweft/README.md`](ci/patchweft/README.md).
+
 ## Architecture
 
 ```

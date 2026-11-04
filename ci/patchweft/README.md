@@ -26,6 +26,11 @@ false`): it produces evidence, it does not advance a Patchweft frontier.
 
 ## Run it on this host
 
+Declared reuse (`inputs_file`) needs a Patchweft binary built from current source; older
+installs reject the field at registration. Build one with `cargo build --release --locked` in
+the Patchweft checkout, or switch the jobs to the default `inflight` policy and drop
+`inputs_file` before generating.
+
 Import captures committed source only — commit first. One host, one binary, one store; every
 executor that runs a profile's jobs must hold the identical tools at the same paths.
 

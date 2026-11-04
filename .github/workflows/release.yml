@@ -37,14 +37,20 @@ jobs:
       - name: Prepare APK
         run: cp app/build/outputs/apk/debug/app-debug.apk "drydock-${{ github.ref_name }}-debug.apk"
 
-      - name: Create pre-release
+      - name: Create or update pre-release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ github.ref_name }}" \
-            --title "${{ github.ref_name }} (experimental)" \
-            --prerelease \
-            --notes "Experimental pre-release. The attached APK is a **debug build**, signed with the standard Android debug key — sideload it at your own risk. It has not yet been validated on physical hardware; see the README's Known limitations.
+          if gh release view "${{ github.ref_name }}" >/dev/null 2>&1; then
+            gh release upload "${{ github.ref_name }}" \
+              "drydock-${{ github.ref_name }}-debug.apk#Drydock ${{ github.ref_name }} debug APK (experimental)" \
+              --clobber
+          else
+            gh release create "${{ github.ref_name }}" \
+              --title "${{ github.ref_name }} (experimental)" \
+              --prerelease \
+              --notes "Experimental pre-release. The attached APK is a **debug build**, signed with the standard Android debug key — sideload it at your own risk. It has not yet been validated on physical hardware; see the README's Known limitations.
 
           Release builds are not signed yet; build locally with \`./gradlew assembleRelease\` if you want an optimized (unsigned) APK." \
-            "drydock-${{ github.ref_name }}-debug.apk#Drydock ${{ github.ref_name }} debug APK (experimental)"
+              "drydock-${{ github.ref_name }}-debug.apk#Drydock ${{ github.ref_name }} debug APK (experimental)"
+          fi
